@@ -21,5 +21,13 @@ def clean_dataframe(df):
     clean_df['OriginalTweet'] = clean_df['OriginalTweet'].str.replace('@[^ ]+', ' ', regex=True)
 
     clean_df = clean_df[clean_df['OriginalTweet'].str.contains('\w{3,}')]
+    label_dict = {
+        'Extremely Negative': 0,
+        'Negative': 0,
+        'Neutral': 1,
+        'Positive': 2,
+        'Extremely Positive': 2
+    }
+    clean_df['SentimentCode'] = clean_df['Sentiment'].replace(label_dict)
 
     return clean_df
