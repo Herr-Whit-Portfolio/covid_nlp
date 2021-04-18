@@ -36,3 +36,21 @@ def clean_dataframe(df, tweet_option='remove_hash'):
     clean_df['SentimentCode'] = clean_df['Sentiment'].replace(label_dict)
 
     return clean_df
+
+
+
+from spacy.lang.en import English
+from spacy.lang.en.stop_words import STOP_WORDS
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+nlp = English()
+
+
+def featurize_text(text):
+    text = nlp(text)
+    filtered_text = list()
+    for word in text:
+        if (word.is_stop == False) and (word.is_punct == False):
+            filtered_text.append(word.lemma)
+    return filtered_text
