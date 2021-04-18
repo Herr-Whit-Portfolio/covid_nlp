@@ -1,4 +1,4 @@
-def clean_dataframe(df):
+def clean_dataframe(df, tweet_option='remove_hash'):
 
     clean_df = df.copy()
     # Clean up whitespace.
@@ -13,8 +13,13 @@ def clean_dataframe(df):
     clean_df['OriginalTweet'] = clean_df['OriginalTweet'].str.replace('(&amp;)|&', 'and', regex=True)
     # Change hashtags to normal words (remove the '#').
     #
-    # '#yolo' -> 'yolo'
-    clean_df['OriginalTweet'] = clean_df['OriginalTweet'].str.replace('#', ' ', regex=True)
+    if tweet_option == 'remove_hash':
+        # '#yolo' -> 'yolo'
+        clean_df['OriginalTweet'] = clean_df['OriginalTweet'].str.replace('#', ' ', regex=True)
+    elif tweet_option == 'remove_all':
+        clean_df['OriginalTweet'] = clean_df['OriginalTweet'].str.replace('#\w+', ' ', regex=True)
+    else:
+        raise ValueError(f'invalid tweet option: {tweet_option}')
     # Remove reference to twitter Users.
     #
     # Example: '@bbc'
